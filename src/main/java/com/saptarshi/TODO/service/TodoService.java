@@ -17,9 +17,11 @@ public class TodoService {
     }
 
     public Todo createTodo(Todo todo){
-        if(todo.getTitle() == null || todo.getDueDate() == null) {
+        if (todo == null || todo.getTitle() == null || todo.getTitle().isBlank() || todo.getDueDate() == null) {
             return null;
         }
+
+        todo.setId(null);
         return todoRepository.save(todo);
     }
 }

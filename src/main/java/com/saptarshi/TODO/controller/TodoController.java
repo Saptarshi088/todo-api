@@ -1,7 +1,6 @@
 package com.saptarshi.TODO.controller;
 
 import com.saptarshi.TODO.model.Todo;
-import com.saptarshi.TODO.repository.TodoRepository;
 import com.saptarshi.TODO.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,9 +22,13 @@ public class TodoController {
     }
 
     @PostMapping("/add")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Todo> addTodo(@RequestBody Todo todo){
-        return ResponseEntity.ok(todoService.createTodo(todo));
+        Todo createdTodo = todoService.createTodo(todo);
+        if (createdTodo == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdTodo);
     }
 
 }
